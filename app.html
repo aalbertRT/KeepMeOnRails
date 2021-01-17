@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="style.css"/>
+    	<title>Keep me on rails</title>
+	</head>
+	<body>
+		<h1>Keep me on rails</h1>
+		<p id="welcome">Hi peeps! I'm Mr keep me on rails!</p>
+		<p id="purpose"><strong>What the heck is my purpose?</strong> I'm just a simple service that allows you to be alerted when a specific train journey tickets are available.</p>
+		<p>Just tell me where you want to go, from where, and when!</p>
+		<div id="divForm">
+			<form id="mainForm">
+				<div id="userPersonalInfos">
+					<div class="personalInfos">
+						<label for="firstName">Your name</label><input type="text" name="firstName" id="firstName">
+					</div>
+					<div class="personalInfos">
+						<label for="phoneNumber">Your number</label><input type="text" pattern="^0[6-7][0-9]{8}$" name="phoneNumber" id="phoneNumber" >
+					</div>
+				</div>
+				<div id="journey">
+					<div id="departure" class="searchPlaceSuggestion">
+						<label for="cityA">City A</label><input type="text" name="cityA" id="cityA" >
+						<table id="searchDeparture" class="searchPlaceSuggestionTable">
+						</table>
+					</div>
+					<div  id="arrival" class="searchPlaceSuggestion">
+						<label for="cityB">City B</label><input type="text" name="cityB" id="cityB" >
+						<table id="searchArrival" class="searchPlaceSuggestionTable">
+						</table>
+					</div>
+					<div id="divDate">
+						<label for="date">Your trip date</label><input type="date" name="date" id="date" >
+					</div>
+				</div>
+				<p><input type="submit" value="Send"></p>
+			</form>
+		</div>
+		<p>Request result: <span id="result"></span></p>
+    	<script src="index.js"></script>
+	</body>
+</html>

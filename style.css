@@ -1,0 +1,52 @@
+h1 {
+	border: dashed black 2px;
+}
+
+input {
+	text-align: center;
+}
+#welcome {
+	border: dashed black 2px;
+}
+#divForm {
+	margin: 0 auto;
+	border: dashed black 2px;
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+}
+#userPersonalInfos {
+	margin: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#journey {
+	margin: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+#divDate {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.searchPlaceSuggestion {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.searchPlaceSuggestionTable {
+	visibility: hidden;
+}
+
+.personalInfos {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
