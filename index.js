@@ -19,10 +19,10 @@ function createRequestJob(request) {
 function onSubmit(event) {
 	event.preventDefault();
 	let formInput = {
-		firstName: document.getElementById("first-name").value,
-		phoneNumber: document.getElementById("phone-number").value,
-		cityA: document.getElementById("city-a").value,
-		cityB: document.getElementById("city-b").value,
+		firstName: document.getElementById("firstName").value,
+		phoneNumber: document.getElementById("phoneNumber").value,
+		cityA: document.getElementById("cityA").value,
+		cityB: document.getElementById("cityB").value,
 		date: document.getElementById("date").value
 	}
 	console.log(fromInput);
@@ -92,7 +92,7 @@ form.addEventListener('submit', onSubmit);
 let XHRCityA = new XMLHttpRequest();
 let XHRCityB = new XMLHttpRequest();
 
-/*
+
 let XHR = new XMLHttpRequest();
 XHR.onreadystatechange = function () {
 	console.log(this.status);
@@ -107,4 +107,3 @@ let url = "https://api.sncf.com/v1/coverage"
 XHR.open("GET", url);
 XHR.setRequestHeader("Authorization", apiKey);
 XHR.send();
-*/
