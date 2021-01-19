@@ -41,9 +41,16 @@ input {
 	align-items: center;
 }
 
+
 .searchPlaceSuggestionTable {
 	visibility: hidden;
+	width: 199px;
+	position: absolute;
+	margin-top: 50px;
+	background-color: white;
+	border: dotted grey 1px;
 }
+
 
 .personalInfos {
 	display: flex;

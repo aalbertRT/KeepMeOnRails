@@ -47,32 +47,83 @@ function onSubmit(event) {
 	*/
 }
 
+/*
+ * cityResponse is a response to API request
+ */
+function checkCityResponse(cityResponse, cityInput) {
+	if (cityResponse.places.length != 0) {
+		citiesArray = [];
+		for (var place of cityResponse.places) {
+			/* Check the initial name is inside the place name */
+			var regex = new RegExp(cityInput, "i");
+			if (regex.test(place[place.embedded_type].name)) {
+				//console.log("Ville: " + place[place.embedded_type].name + " " + place.id);
+				citiesArray.push({"cityName": place[place.embedded_type].name, "id": place.id});
+			}
+		}
+		if (citiesArray.length == 0) {
+			return undefined;
+		}
+		return citiesArray;
+	} else {
+		return undefined;
+	}
+}
+
+/*
+ *
+ */
+function fillCityTable(cityInput, citiesArray) {
+	let parentDiv = cityInput.parentNode;
+	let cityTable = cityInput.nextElementSibling;
+	/* Flush table */
+	cityTable.innerHTML = "";
+	/* Fill table */
+	for (var city of citiesArray) {
+		var newRow = cityTable.insertRow();
+		var newCell = newRow.insertCell();
+		newCell.textContent = city.cityName;
+	}
+	cityTable.style.visibility = 'visible';
+
+}
+
+function flushCityTable(cityInput) {
+	let parentDiv = cityInput.parentElement;
+	let cityTable = cityInput.nextElementSibling;
+	/* Flush table */
+	cityTable.innerHTML = "";
+	cityTable.visibility = 'hidden';
+}
+
 class PlacesRequest extends XMLHttpRequest {
-	constructor(inputString) {
+	constructor(cityInput) {
 		super();
-		this.input = inputString;
+		this.input = cityInput.value;
+		/* If input is empty, flush the table */
+		if (!this.input) {
+			flushCityTable(cityInput);
+		}
 		this.onreadystatechange = function() {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				let response = JSON.parse(this.responseText);
-				if (response.places.length != 0) {
-					for (var place of response.places) {
-						/* Check the initial name is inside the place name */
-						var regex = new RegExp(this.input, "i");
-						if (regex.test(place[place.embedded_type].name)) {
-							console.log("Ville: " + place[place.embedded_type].name + " " + place.id);
-						}
-					}
+				citiesArray = checkCityResponse(response, this.input);
+				if (citiesArray) {
+					console.log(citiesArray);
+					fillCityTable(cityInput, citiesArray);
+				} else {
+					console.log("Error");
+					flushCityTable(cityInput);
 				}
-				// Should change appearance of the cities table
 			}
 		};
 	}
 }
 
 /* Useful API functions */
-function loadRelevantPlaces(inputString) {
-	let XHRPlaces = new PlacesRequest(inputString);
-	XHRPlaces.open("GET", "https://api.sncf.com/v1/coverage/sncf/places?q=" + inputString);
+function loadRelevantPlaces(cityInput) {
+	let XHRPlaces = new PlacesRequest(cityInput);
+	XHRPlaces.open("GET", "https://api.sncf.com/v1/coverage/sncf/places?q=" + cityInput.value);
 	XHRPlaces.setRequestHeader("Authorization", apiKey);
 	XHRPlaces.send();
 }
@@ -82,17 +133,20 @@ let cityA = document.getElementById("cityA");
 let cityB = document.getElementById("cityB");
 
 /* Listen to typing events */
-cityA.addEventListener("input", function (){
-	console.log("text: " + this.value);
-	loadRelevantPlaces(this.value);
+cityA.addEventListener("input", function() {
+	loadRelevantPlaces(this);
 });
+cityB.addEventListener("input", function() {
+	loadRelevantPlaces(this);
+});
+
 
 form.addEventListener('submit', onSubmit);
 /* Define AJAX requests */
 let XHRCityA = new XMLHttpRequest();
 let XHRCityB = new XMLHttpRequest();
 
-
+/*
 let XHR = new XMLHttpRequest();
 XHR.onreadystatechange = function () {
 	console.log(this.status);
@@ -107,3 +161,4 @@ let url = "https://api.sncf.com/v1/coverage"
 XHR.open("GET", url);
 XHR.setRequestHeader("Authorization", apiKey);
 XHR.send();
+*/
