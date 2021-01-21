@@ -25,18 +25,7 @@ function onSubmit(event) {
 		cityB: document.getElementById("cityB").value,
 		date: document.getElementById("date").value
 	}
-	console.log(fromInput);
-	/*
-	let XHR = new XMLHttpRequest();
-	XHR.onreadystatechange = function () {
-		if (this.readyState == new XMLHttpRequest.DONE && this.status == 200) {
-			let response = JSON.parse(this.responseText);
-			console.log(response);
-		}
-	};
-	XHR.open("GET", )
-	XHR.send();
-	*/
+	console.log(formInput);
 	/* Test the API request */
 	/* Test the DB insertion */
 	/* Tob be activated once db is set up
@@ -85,7 +74,7 @@ function fillCityTable(cityInput, citiesArray) {
 		newCell.textContent = city.cityName;
 		/* Fill the input cell when a city is clicked in the table */
 		newCell.addEventListener('click', function() {
-			document.getElementById("cityA").value = this.innerHTML;
+			cityInput.value = this.innerHTML;
 			flushCityTable(cityInput);
 		});
 	}
