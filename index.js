@@ -83,9 +83,13 @@ function fillCityTable(cityInput, citiesArray) {
 		var newRow = cityTable.insertRow();
 		var newCell = newRow.insertCell();
 		newCell.textContent = city.cityName;
+		/* Fill the input cell when a city is clicked in the table */
+		newCell.addEventListener('click', function() {
+			document.getElementById("cityA").value = this.innerHTML;
+			flushCityTable(cityInput);
+		});
 	}
 	cityTable.style.visibility = 'visible';
-
 }
 
 function flushCityTable(cityInput) {
