@@ -113,10 +113,8 @@ class PlacesRequest extends XMLHttpRequest {
 				let response = JSON.parse(this.responseText);
 				citiesArray = checkCityResponse(response, this.input);
 				if (citiesArray) {
-					console.log(citiesArray);
 					fillCityTable(cityInput, citiesArray);
 				} else {
-					console.log("Error");
 					flushCityTable(cityInput);
 				}
 			}
@@ -146,9 +144,6 @@ cityB.addEventListener("input", function() {
 
 
 form.addEventListener('submit', onSubmit);
-/* Define AJAX requests */
-let XHRCityA = new XMLHttpRequest();
-let XHRCityB = new XMLHttpRequest();
 
 /*
 let XHR = new XMLHttpRequest();
