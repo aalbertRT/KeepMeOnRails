@@ -26,6 +26,7 @@ function onSubmit(event) {
 		date: document.getElementById("date").value
 	}
 	console.log(formInput);
+	form.reset();
 	/* Test the API request */
 	/* Test the DB insertion */
 	/* Tob be activated once db is set up
