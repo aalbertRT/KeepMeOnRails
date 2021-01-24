@@ -20,6 +20,7 @@ function onSubmit(event) {
 	event.preventDefault();
 	let formInput = {
 		firstName: document.getElementById("firstName").value,
+		email: document.getElementById("email").value,
 		phoneNumber: document.getElementById("phoneNumber").value,
 		cityA: document.getElementById("cityA").value,
 		cityB: document.getElementById("cityB").value,
