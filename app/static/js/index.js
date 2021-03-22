@@ -1,20 +1,4 @@
-const apiKey = "ad768e1e-e644-4994-a7e4-1af009618915"
 var form = document.getElementById("mainForm");
-
-function checkExistingRequest(request) {
-	/*request is a js object*/
-	return true;
-}
-
-function insertRequestInDatabase(request) {
-	/*request is a js object*/
-}
-
-/* Create a backend job that will check regularly when tickets are being sold. */
-function createRequestJob(request) {
-	/*request is a js object*/
-	insertRequestInDatabase(request);
-}
 
 function onSubmit(event) {
 	event.preventDefault();
@@ -27,20 +11,15 @@ function onSubmit(event) {
 		date: document.getElementById("date").value
 	}
 	console.log(formInput);
-	form.reset();
-	/* Test the API request */
-	/* Test the DB insertion */
-	/* Tob be activated once db is set up
-	if (!checkExistingRequest(formInput)) {
-		insertRequestInDatabase(formInput);
-		createRequestJob(formInput);
-	}
-	*/
+	//form.reset();
+
+	var request = new XMLHttpRequest();
+	request.open("POST", "localhost:8080");
+	request.setRequestHeader("Content-type", "application/json");
+	request.send(JSON.stringify(formInput));
 }
 
-/*
- * cityResponse is a response to API request
- */
+
 function checkCityResponse(cityResponse, cityInput) {
 	if (cityResponse.places.length != 0) {
 		citiesArray = [];
@@ -61,9 +40,6 @@ function checkCityResponse(cityResponse, cityInput) {
 	}
 }
 
-/*
- *
- */
 function fillCityTable(cityInput, citiesArray) {
 	let parentDiv = cityInput.parentNode;
 	let cityTable = cityInput.nextElementSibling;
@@ -117,7 +93,7 @@ class PlacesRequest extends XMLHttpRequest {
 function loadRelevantPlaces(cityInput) {
 	let XHRPlaces = new PlacesRequest(cityInput);
 	XHRPlaces.open("GET", "https://api.sncf.com/v1/coverage/sncf/places?q=" + cityInput.value);
-	XHRPlaces.setRequestHeader("Authorization", apiKey);
+	XHRPlaces.setRequestHeader("Authorization", window.appConfig.sncf_token);
 	XHRPlaces.send();
 }
 
@@ -133,22 +109,4 @@ cityB.addEventListener("input", function() {
 	loadRelevantPlaces(this);
 });
 
-
 form.addEventListener('submit', onSubmit);
-
-/*
-let XHR = new XMLHttpRequest();
-XHR.onreadystatechange = function () {
-	console.log(this.status);
-	if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-		let response = JSON.parse(this.responseText);
-		console.log(response);
-	}
-};
-//let url = "https://api.sncf.com/v1/coverage/sncf/stop_areas/stop_area:OCE:SA:87391003/departures?datetime=20210114T212401";
-let url = "https://api.sncf.com/v1/coverage"
-
-XHR.open("GET", url);
-XHR.setRequestHeader("Authorization", apiKey);
-XHR.send();
-*/

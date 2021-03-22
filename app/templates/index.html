@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" href="style.css"/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
     	<title>Keep me on rails</title>
 	</head>
 	<body>
@@ -41,7 +41,17 @@
 				<p><input type="submit" value="Send"></p>
 			</form>
 		</div>
-		<p>Request result: <span id="result"></span></p>
-    	<script src="index.js"></script>
+		<div id="results">
+			<div id="askConfirmation">
+			</div>
+			<div id="formSent">
+			</div>
+		</div>
+		<script type="text/javascript">
+			window.appConfig = {
+				sncf_token: "{{ sncf_token }}"
+			}
+		</script>
+    	<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 	</body>
 </html>
