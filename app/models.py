@@ -49,4 +49,8 @@ class Trip(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    lg.info('Database initialiazed')
+    db.session.add(User(username='Dummy',
+                        email='dummy@dummy.dm',
+                        phone_number='0600000000'))
+    db.session.commit()
+    lg.info('Database initialized')
