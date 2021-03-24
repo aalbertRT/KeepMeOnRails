@@ -39,7 +39,7 @@ class Trip(db.Model):
     city_b_station_id = db.Column(db.Integer, nullable=False)
 
     def __init__(self, **kwargs):
-        self.user = kwargs['user']
+        self.user_id = kwargs['user_id']
         self.city_a = kwargs['city_a']
         self.city_a_station_id = kwargs['city_a_station_id']
         self.city_b = kwargs['city_b']
