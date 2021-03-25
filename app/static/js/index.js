@@ -1,5 +1,8 @@
 var form = document.getElementById("mainForm");
 
+var cityAId = '';
+var cityBId = '';
+
 function onSubmit(event) {
 	event.preventDefault();
 	let formInput = {
@@ -7,7 +10,9 @@ function onSubmit(event) {
 		email: document.getElementById("email").value,
 		phoneNumber: document.getElementById("phoneNumber").value,
 		cityA: document.getElementById("cityA").value,
+		cityAId: cityAId,
 		cityB: document.getElementById("cityB").value,
+		cityBId: cityBId,
 		date: document.getElementById("date").value
 	}
 	console.log(formInput);
@@ -33,7 +38,6 @@ function checkCityResponse(cityResponse, cityInput) {
 			/* Check the initial name is inside the place name */
 			var regex = new RegExp(cityInput, "i");
 			if (regex.test(place[place.embedded_type].name)) {
-				//console.log("Ville: " + place[place.embedded_type].name + " " + place.id);
 				citiesArray.push({"cityName": place[place.embedded_type].name, "id": place.id});
 			}
 		}
@@ -47,7 +51,6 @@ function checkCityResponse(cityResponse, cityInput) {
 }
 
 function fillCityTable(cityInput, citiesArray) {
-	let parentDiv = cityInput.parentNode;
 	let cityTable = cityInput.nextElementSibling;
 	/* Flush table */
 	cityTable.innerHTML = "";
@@ -59,9 +62,16 @@ function fillCityTable(cityInput, citiesArray) {
 		/* Fill the input cell when a city is clicked in the table */
 		newCell.addEventListener('click', function() {
 			cityInput.value = this.innerHTML;
+			if (cityInput.name == 'cityA') {
+				cityAId = city.id;
+			}
+			if (cityInput.name == 'cityB') {
+				cityBId = city.id;
+			}
 			flushCityTable(cityInput);
 		});
 	}
+	/* Make the cities array visible to user */
 	cityTable.style.visibility = 'visible';
 }
 
