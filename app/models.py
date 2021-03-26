@@ -16,10 +16,10 @@ class User(db.Model):
     # It is also mandatory to add property 'user' to the Trip object 
     trips = db.relationship('Trip', backref='user', lazy=True)
     
-    def __init__(self, **kwargs):
-        self.username = kwargs['username']
-        self.email = kwargs['email']
-        self.phone_number = kwargs['phone_number']
+    def __init__(self, username: str, email: str, phone_number: str):
+        self.username = username
+        self.email = email
+        self.phone_number = phone_number
     
     def __str__(self):
         return 'Username: {}, email: {}, phone number: {}'.format(self.username,
@@ -32,18 +32,14 @@ class User(db.Model):
 
 class Trip(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', nullable=False))
-    city_a = db.Column(db.String(120), nullable=False)
-    city_a_station_id = db.Column(db.Integer, nullable=False)
-    city_b = db.Column(db.String(120), nullable=False)
-    city_b_station_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    city_a_station_id = db.Column(db.String, nullable=False)
+    city_b_station_id = db.Column(db.String, nullable=False)
 
-    def __init__(self, **kwargs):
-        self.user_id = kwargs['user_id']
-        self.city_a = kwargs['city_a']
-        self.city_a_station_id = kwargs['city_a_station_id']
-        self.city_b = kwargs['city_b']
-        self.city_b_station_id = kwargs['city_b_station_id']
+    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str):
+        self.user_id = user_id
+        self.city_a_station_id = city_a_station_id
+        self.city_b_station_id = city_b_station_id
 
 
 def init_db():
