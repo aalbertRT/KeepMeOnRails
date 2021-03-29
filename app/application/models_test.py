@@ -10,7 +10,7 @@ def test_user_create(user: User):
 
 @fixture
 def trip() -> Trip:
-    return Trip(user_id=1, city_a_station_id=0, city_b_station_id=1)
+    return Trip(user_id=1, city_a_station_id=0, city_b_station_id=1, date='20210330')
 
 def test_trip_create(trip: Trip):
     assert trip
