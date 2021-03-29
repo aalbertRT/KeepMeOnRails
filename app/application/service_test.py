@@ -15,20 +15,20 @@ def add_users_to_db(db: SQLAlchemy, users: List[User]):
 
 def test_user_create(db: SQLAlchemy):
     # 1. Define user properties
-    user_properties = {
-        'username': 'user1',
-        'email': 'user1@users.com',
-        'phone_number': '0600000001'
-    }
+    user_interface = UserInterface(
+        username='user1',
+        email='user1@users.com',
+        phone_number='0600000001'
+    )
     # 2. Create user
-    user: User = UserService.create(user_properties)
+    UserService.create(user_interface)
     # 3. Get users in db
-    users_db: List[User] = UserService.get_all()
+    results: List[User] = User.query.all()
     # 4. Verify created user has right properties and is in the db
-    assert (user.username == user_properties['username']) and \
-           (user.email == user_properties['email']) and \
-           (user.phone_number == user_properties['phone_number'])
-    assert user in users_db
+    assert (len(results) == 1)
+    for key in user_interface.keys():
+        assert getattr(results[0], key) == user_interface[key]
+
 
 def test_user_get_all(db: SQLAlchemy):
     # 1. Add two users to db
@@ -51,9 +51,21 @@ def test_user_get_by_id(db: SQLAlchemy):
 
 def test_user_update(db: SQLAlchemy):
     # 1. Add user to db
+    user: User = User(username='user1', email='user1@users.com', phone_number='0600000001')
+    #add_users_to_db(db, [user])
+    db.session.add(user)
+    db.session.commit()
     # 2. Modify the user
+    updates = UserInterface(
+        username='user2',
+        email='user2@users.com',
+        phone_number='0600000002'
+    )
+    UserService.update(user, updates)
     # 3. Verify user has been modified
-    assert True
+    result: User = User.query.all()
+    for key in updates.keys():
+        assert getattr(result[0], key) == updates[key]
 
 def test_user_delete_by_id(db: SQLAlchemy):
     # 1. Add two users to db
@@ -64,6 +76,5 @@ def test_user_delete_by_id(db: SQLAlchemy):
     deleted_user_id = 2
     returned_ids: List[int] = UserService.delete_by_id(deleted_user_id)
     # 3. Get all the users and verify the deleted is absent
-    UserService.get_all()
-    assert True
-
+    results: List[User] = User.query.all()
+    assert (len(results) == 1) and (results[0].username == 'user1')

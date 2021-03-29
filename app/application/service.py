@@ -1,6 +1,6 @@
 from typing import List
 from .models import db, User, Trip
-from .interface import UserInterface, TripInterface
+from .interface import UserInterface
 
 class UserService():
     @staticmethod
@@ -12,8 +12,9 @@ class UserService():
         return User.query.get(user_id)
 
     @staticmethod
-    def update(user: User, User_changes_updates: UserInterface) -> User:
-        user.update(User_changes_updates)
+    def update(user: User, user_changes_updates: UserInterface) -> User:
+        for key in user_changes_updates.keys():
+            setattr(user, key, user_changes_updates[key])
         db.session.commit()
         return user
 
