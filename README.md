@@ -4,7 +4,7 @@
 - [x] Application factory
 - [x] Flask Blueprints
 - [x] Unitary test classes with pytest
-- [] ???
+- [ ] ???
 
 ## Run the app
 
