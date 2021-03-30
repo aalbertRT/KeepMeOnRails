@@ -34,11 +34,13 @@ class Trip(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     city_a_station_id = db.Column(db.String, nullable=False)
     city_b_station_id = db.Column(db.String, nullable=False)
+    date = db.Column(db.String, nullable=False)
 
-    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str):
+    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str, date: str):
         self.user_id = user_id
         self.city_a_station_id = city_a_station_id
         self.city_b_station_id = city_b_station_id
+        self.date = date
 
 
 def init_db():
