@@ -57,7 +57,7 @@ class TripService():
 
     @staticmethod
     def delete_by_id(trip_id: int) -> List[int]:
-        trip = Trip.query.filter(Trip.id == v).first()
+        trip = Trip.query.filter(Trip.id == trip_id).first()
         if not trip:
             return []
         db.session.delete(trip)
@@ -74,4 +74,4 @@ class TripService():
         )
         db.session.add(new_trip)
         db.session.commit()
-        return new_user
+        return new_trip

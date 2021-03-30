@@ -9,4 +9,5 @@ class TripInterface(TypedDict):
     user_id: int
     city_a_station_id: str
     city_b_station_id: str
+    date: str
 
