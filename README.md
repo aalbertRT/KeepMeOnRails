@@ -1,5 +1,11 @@
 # Keep me on rails
 
+## Implemented features
+[x] Application factory
+[x] Flask Blueprints
+[x] Unitary test classes with pytest
+[] ???
+
 ## Run the app
 
 ### Requirements
