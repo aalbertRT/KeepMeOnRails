@@ -23,7 +23,8 @@ class TestUserService:
         email='user2@users.com',
         phone_number='0600000002'
         )
-    
+
+
     def test_create(self, db: SQLAlchemy):
         # Create user
         UserService.create(self.USER1_INTERFACE)
@@ -51,10 +52,21 @@ class TestUserService:
         user1: User = User(**self.USER1_INTERFACE)
         user2: User = User(**self.USER2_INTERFACE)
         add_users_to_db(db, [user1, user2])
-        # Verify the db is constituted with the two previous users
+        # Verify you get user2 with id 2
         result: User = UserService.get_by_id(2)
         for key in self.USER2_INTERFACE.keys():
             assert getattr(result, key) == self.USER2_INTERFACE[key]
+
+
+    def test_get_by_username(self, db: SQLAlchemy):
+        # Add two users to db
+        user1: User = User(**self.USER1_INTERFACE)
+        user2: User = User(**self.USER2_INTERFACE)
+        add_users_to_db(db, [user1, user2])
+        # Get user1 by username
+        result: User = UserService.get_by_username('user1')
+        # Verify user1 is obtained
+        assert result.username == 'user1'
 
 
     def test_update(self, db: SQLAlchemy):
@@ -100,7 +112,7 @@ class TestTripService:
         city_b_station_id='3',
         date='20210401'
         )
-    
+
     def test_create(self, db: SQLAlchemy):
         # Create trip
         TripService.create(self.TRIP1_INTERFACE)

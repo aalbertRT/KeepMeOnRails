@@ -6,10 +6,14 @@ class UserService():
     @staticmethod
     def get_all() -> List[User]:
         return User.query.all()
-    
+
     @staticmethod
     def get_by_id(user_id: int) -> User:
         return User.query.get(user_id)
+
+    @staticmethod
+    def get_by_username(username: str) -> User:
+        return User.query.filter(User.username == username).first()
 
     @staticmethod
     def update(user: User, user_changes_updates: UserInterface) -> User:
@@ -43,7 +47,7 @@ class TripService():
     @staticmethod
     def get_all() -> List[Trip]:
         return Trip.query.all()
-    
+
     @staticmethod
     def get_by_id(trip_id: int) -> Trip:
         return Trip.query.get(trip_id)
