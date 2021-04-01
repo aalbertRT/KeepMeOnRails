@@ -145,6 +145,17 @@ class TestTripService:
         for key in self.TRIP2_INTERFACE.keys():
             assert getattr(result, key) == self.TRIP2_INTERFACE[key]
 
+    def test_get_by_user_id(self, db: SQLAlchemy):
+        # Add two trips to db
+        trip1: Trip = Trip(**self.TRIP1_INTERFACE)
+        trip2: Trip = Trip(**self.TRIP2_INTERFACE)
+        add_trips_to_db(db, [trip1, trip2])
+        # Verify the db is constituted with the two previous trips
+        requested_user_id = 1
+        results: List[Trip] = TripService.get_by_user_id(requested_user_id)
+        assert len(results) == 1
+        assert results[0].user_id == requested_user_id
+
 
     def test_update(self, db: SQLAlchemy):
         # Add trip to db

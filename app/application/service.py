@@ -53,6 +53,10 @@ class TripService():
         return Trip.query.get(trip_id)
 
     @staticmethod
+    def get_by_user_id(user_id: int) -> Trip:
+        return Trip.query.filter(Trip.user_id == user_id).all()
+
+    @staticmethod
     def update(trip: Trip, trip_changes_updates: TripInterface) -> Trip:
         for key in trip_changes_updates.keys():
             setattr(trip, key, trip_changes_updates[key])
