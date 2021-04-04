@@ -23,7 +23,8 @@ class TestUserService:
         email='user2@users.com',
         phone_number='0600000002'
         )
-    
+
+
     def test_create(self, db: SQLAlchemy):
         # Create user
         UserService.create(self.USER1_INTERFACE)
@@ -51,10 +52,21 @@ class TestUserService:
         user1: User = User(**self.USER1_INTERFACE)
         user2: User = User(**self.USER2_INTERFACE)
         add_users_to_db(db, [user1, user2])
-        # Verify the db is constituted with the two previous users
+        # Verify you get user2 with id 2
         result: User = UserService.get_by_id(2)
         for key in self.USER2_INTERFACE.keys():
             assert getattr(result, key) == self.USER2_INTERFACE[key]
+
+
+    def test_get_by_username(self, db: SQLAlchemy):
+        # Add two users to db
+        user1: User = User(**self.USER1_INTERFACE)
+        user2: User = User(**self.USER2_INTERFACE)
+        add_users_to_db(db, [user1, user2])
+        # Get user1 by username
+        result: User = UserService.get_by_username('user1')
+        # Verify user1 is obtained
+        assert result.username == 'user1'
 
 
     def test_update(self, db: SQLAlchemy):
@@ -100,7 +112,7 @@ class TestTripService:
         city_b_station_id='3',
         date='20210401'
         )
-    
+
     def test_create(self, db: SQLAlchemy):
         # Create trip
         TripService.create(self.TRIP1_INTERFACE)
@@ -132,6 +144,17 @@ class TestTripService:
         result: Trip = TripService.get_by_id(2)
         for key in self.TRIP2_INTERFACE.keys():
             assert getattr(result, key) == self.TRIP2_INTERFACE[key]
+
+    def test_get_by_user_id(self, db: SQLAlchemy):
+        # Add two trips to db
+        trip1: Trip = Trip(**self.TRIP1_INTERFACE)
+        trip2: Trip = Trip(**self.TRIP2_INTERFACE)
+        add_trips_to_db(db, [trip1, trip2])
+        # Verify the db is constituted with the two previous trips
+        requested_user_id = 1
+        results: List[Trip] = TripService.get_by_user_id(requested_user_id)
+        assert len(results) == 1
+        assert results[0].user_id == requested_user_id
 
 
     def test_update(self, db: SQLAlchemy):

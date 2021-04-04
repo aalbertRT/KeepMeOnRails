@@ -42,6 +42,10 @@ class Trip(db.Model):
         self.city_b_station_id = city_b_station_id
         self.date = date
 
+    def __str__(self):
+        return 'City A station: {}, City B station: {}, date: {}'.format(self.city_a_station_id,
+                                                                  self.city_b_station_id,
+                                                                  self.date)
 
 def init_db():
     db.drop_all()
