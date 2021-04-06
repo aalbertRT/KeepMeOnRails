@@ -16,6 +16,10 @@ class UserService():
         return User.query.filter(User.username == username).first()
 
     @staticmethod
+    def get_by_email(email: str) -> User:
+        return User.query.filter(User.email == email).first()
+
+    @staticmethod
     def update(user: User, user_changes_updates: UserInterface) -> User:
         for key in user_changes_updates.keys():
             setattr(user, key, user_changes_updates[key])
