@@ -1,6 +1,7 @@
 from typing import List
 from .models import db, User, Trip
 from .interface import UserInterface, TripInterface
+from werkzeug.security import generate_password_hash
 
 class UserService():
     @staticmethod
@@ -22,6 +23,9 @@ class UserService():
     @staticmethod
     def update(user: User, user_changes_updates: UserInterface) -> User:
         for key in user_changes_updates.keys():
+            if key == 'password':
+                user.set_password(user_changes_updates[key])
+                continue
             setattr(user, key, user_changes_updates[key])
         db.session.commit()
         return user
@@ -40,7 +44,7 @@ class UserService():
         new_user = User(
             username=new_attrs['username'],
             email=new_attrs['email'],
-            phone_number=new_attrs['phone_number'],
+            password=new_attrs['password']
         )
         db.session.add(new_user)
         db.session.commit()

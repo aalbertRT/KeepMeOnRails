@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from application.fixtures import app, db
@@ -6,6 +7,8 @@ from .interface import UserInterface, TripInterface
 from .service import UserService, TripService
 
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash
+
 
 def add_users_to_db(db: SQLAlchemy, users: List[User]):
     for user in users:
@@ -16,12 +19,12 @@ class TestUserService:
     USER1_INTERFACE: UserInterface = UserInterface(
         username='user1',
         email='user1@users.com',
-        phone_number='0600000001'
+        password='password1'
         )
     USER2_INTERFACE: UserInterface = UserInterface(
         username='user2',
         email='user2@users.com',
-        phone_number='0600000002'
+        password='password2'
         )
 
 
@@ -33,6 +36,9 @@ class TestUserService:
         # Verify created user has right properties and is in the db
         assert (len(results) == 1)
         for key in self.USER1_INTERFACE.keys():
+            if key=='password':
+                assert check_password_hash(getattr(results[0], key), self.USER1_INTERFACE[key])
+                continue
             assert getattr(results[0], key) == self.USER1_INTERFACE[key]
 
 
@@ -55,10 +61,13 @@ class TestUserService:
         # Verify you get user2 with id 2
         result: User = UserService.get_by_id(2)
         for key in self.USER2_INTERFACE.keys():
+            if key=='password':
+                assert check_password_hash(getattr(result, key), self.USER2_INTERFACE[key])
+                continue
             assert getattr(result, key) == self.USER2_INTERFACE[key]
 
 
-    def test_get_by_username(self, db: SQLAlchemy):
+    def test_get_by_email(self, db: SQLAlchemy):
         # Add two users to db
         user1: User = User(**self.USER1_INTERFACE)
         user2: User = User(**self.USER2_INTERFACE)
@@ -66,10 +75,10 @@ class TestUserService:
         # Get user1 by email
         result: User = UserService.get_by_email('user1@users.com')
         # Verify user1 is obtained
-        assert result.username == 'user1@users.com'
+        assert result.email == 'user1@users.com'
 
 
-    def test_get_by_email(self, db: SQLAlchemy):
+    def test_get_by_username(self, db: SQLAlchemy):
         # Add two users to db
         user1: User = User(**self.USER1_INTERFACE)
         user2: User = User(**self.USER2_INTERFACE)
@@ -89,6 +98,9 @@ class TestUserService:
         # Verify user has been modified
         result: User = User.query.all()[0]
         for key in self.USER2_INTERFACE.keys():
+            if key == 'password':
+                assert check_password_hash(getattr(result, key), self.USER2_INTERFACE[key])
+                continue
             assert getattr(result, key) == self.USER2_INTERFACE[key]
 
 
@@ -115,13 +127,13 @@ class TestTripService:
         user_id=1,
         city_a_station_id='0',
         city_b_station_id='1',
-        date='20210330'
+        date=datetime.strptime('20210330', '%Y%m%d')
         )
     TRIP2_INTERFACE: TripInterface = TripInterface(
         user_id=2,
         city_a_station_id='2',
         city_b_station_id='3',
-        date='20210401'
+        date=datetime.strptime('20210401', '%Y%m%d')
         )
 
     def test_create(self, db: SQLAlchemy):

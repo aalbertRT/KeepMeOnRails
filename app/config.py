@@ -15,6 +15,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Secrets
     SNCF_TOKEN = environ.get('SNCF_TOKEN')
+    SECRET_KEY = environ.get('SECRET_KEY')
 
 class ProdConfig(Config):
     """Production configuration."""
@@ -42,3 +43,5 @@ class TestConfig(Config):
     DEBUG = True
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get('TEST_DATABASE_URI')
+    # Secrets
+    SECRET_KEY = '?iHpf.\nsPrB,>0A"~J.K52#@'

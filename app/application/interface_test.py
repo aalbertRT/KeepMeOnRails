@@ -1,10 +1,11 @@
+from datetime import datetime
 from pytest import fixture
 from .models import User, Trip
 from .interface import UserInterface, TripInterface
 
 @fixture
 def user_interface() -> UserInterface:
-    return UserInterface(username='Dummy', email='dummy@dummy.dm', phone_number='0600000000')
+    return UserInterface(username='Dummy', email='dummy@dummy.dm', password='password')
 
 def test_UserInterface_create(user_interface: UserInterface):
     assert user_interface
@@ -15,7 +16,8 @@ def test_UserInterface_works(user_interface: UserInterface):
 
 @fixture
 def trip_interface() -> TripInterface:
-    return TripInterface(user_id=1, city_a_station_id=0, city_b_station_id=1, date='20210330')
+    test_date = datetime.strptime('20210330', '%Y%m%d')
+    return TripInterface(user_id=1, city_a_station_id=0, city_b_station_id=1, date=test_date)
 
 def test_TripInterface_create(trip_interface: TripInterface):
     assert trip_interface
