@@ -33,13 +33,13 @@ class User(UserMixin, db.Model):
     def check_password(self, password: str):
         """Check hashed password."""
         return check_password_hash(self.password, password)
-    
+
     def __str__(self):
         return 'Username: {}, email: {}'.format(self.username, self.email)
 
     def __repr__(self):
         return '<User %r>'.format(self.username)
-        
+
 
 class Trip(db.Model):
     """Data model for recorded trips."""

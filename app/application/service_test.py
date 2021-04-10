@@ -104,6 +104,18 @@ class TestUserService:
             assert getattr(result, key) == self.USER2_INTERFACE[key]
 
 
+    def test_update_last_login(self, db: SQLAlchemy):
+        # Add user to db
+        user: User = User(**self.USER1_INTERFACE)
+        add_users_to_db(db, [user])
+        # Modify the user
+        new_date: datetime = datetime.strptime('20210410', '%Y%m%d')
+        UserService.update_last_login(user, new_date)
+        # Verify user login date has been modified
+        result: User = User.query.all()[0]
+        assert result.last_login == new_date
+
+
     def test_delete_by_id(self, db: SQLAlchemy):
         # Add two users to db
         user1: User = User(**self.USER1_INTERFACE)

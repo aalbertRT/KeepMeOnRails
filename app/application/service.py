@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from .models import db, User, Trip
 from .interface import UserInterface, TripInterface
@@ -26,6 +27,12 @@ class UserService():
                 user.set_password(user_changes_updates[key])
                 continue
             setattr(user, key, user_changes_updates[key])
+        db.session.commit()
+        return user
+    
+    @staticmethod
+    def update_last_login(user: User, last_login_date: datetime) -> User:
+        setattr(user, 'last_login', last_login_date)
         db.session.commit()
         return user
 
