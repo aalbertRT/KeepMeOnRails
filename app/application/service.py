@@ -1,7 +1,6 @@
 from typing import List
 from .models import db, User, Trip
 from .interface import UserInterface, TripInterface
-from werkzeug.security import generate_password_hash
 
 class UserService():
     @staticmethod

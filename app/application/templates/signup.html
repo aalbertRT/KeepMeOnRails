@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+</body>
+    <div class="box">
+        <form method="POST" action="/signup/">
+            {{ form.csrf_token }}
+            <fieldset class="name">
+                {{ form.name(placeholder='Name') }}
+                {% if form.name.errors %}
+                <ul class="errors">
+                    {% for errors in form.name.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            <fieldset class="email">
+                {{ form.email(placeholder='Email') }}
+                {% if form.email.errors %}
+                <ul class="errors">
+                    {% for errors in form.email.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            <fieldset class="password">
+                {{ form.password(placeholder='Password') }}
+                {% if form.password.errors %}
+                <ul class="errors">
+                    {% for errors in form.password.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            <fieldset class="confirm">
+                {{ form.confirm(placeholder='Confirm password') }}
+                {% if form.confirm.errors %}
+                <ul class="errors">
+                    {% for errors in form.confirm.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            <div class="submit-button">
+                {{ form.submit }}
+            </div>
+            <div>
+                <a href="{{ url_for('auth_bp.login') }}">
+                    Login
+                </a>
+            </div>
+        </form>
+    </div>
+</html>

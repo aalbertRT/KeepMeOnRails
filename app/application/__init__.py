@@ -37,11 +37,12 @@ def create_app(testing=False):
     db.init_app(app)
     
     with app.app_context():
-        # Include app routes
-        from .home import routes as home
-
+        # Import blueprint modules
+        import application.home as home
+        import application.auth as auth
         # Register Blueprints
         app.register_blueprint(home.home_bp)
+        app.register_blueprint(auth.auth_bp)
 
         # Create database
         db.create_all()
