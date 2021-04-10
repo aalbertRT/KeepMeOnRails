@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -48,10 +48,10 @@ class Trip(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
     city_a_station_id = db.Column(db.String, unique=False, nullable=False)
     city_b_station_id = db.Column(db.String, unique=False, nullable=False)
-    date = db.Column(db.DateTime, unique=False, nullable=False)
+    date = db.Column(db.Date, unique=False, nullable=False)
     created_on = db.Column(db.DateTime, unique=False, nullable=True)
 
-    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str, date: datetime):
+    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str, date: date):
         self.user_id = user_id
         self.city_a_station_id = city_a_station_id
         self.city_b_station_id = city_b_station_id

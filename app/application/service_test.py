@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import List
 
 from application.fixtures import app, db
@@ -139,13 +139,13 @@ class TestTripService:
         user_id=1,
         city_a_station_id='0',
         city_b_station_id='1',
-        date=datetime.strptime('20210330', '%Y%m%d')
+        date=date.fromisoformat('2021-03-30')
         )
     TRIP2_INTERFACE: TripInterface = TripInterface(
         user_id=2,
         city_a_station_id='2',
         city_b_station_id='3',
-        date=datetime.strptime('20210401', '%Y%m%d')
+        date=date.fromisoformat('2021-04-01')
         )
 
     def test_create(self, db: SQLAlchemy):

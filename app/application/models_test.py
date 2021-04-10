@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from pytest import fixture
 from .models import User, Trip
 
@@ -11,7 +11,7 @@ def test_user_create(user: User):
 
 @fixture
 def trip() -> Trip:
-    test_date = datetime.strptime('20210330', '%Y%m%d')
+    test_date = date.fromisoformat('2021-03-30')
     return Trip(user_id=1, city_a_station_id=0, city_b_station_id=1, date=test_date)
 
 def test_trip_create(trip: Trip):
