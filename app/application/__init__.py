@@ -41,8 +41,8 @@ def create_app(testing=False):
     
     with app.app_context():
         # Import blueprint modules
-        import application.home as home
-        import application.auth as auth
+        from application.blueprints.home import home
+        from application.blueprints.auth import auth
         # Register Blueprints
         app.register_blueprint(home.home_bp)
         app.register_blueprint(auth.auth_bp)
