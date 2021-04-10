@@ -33,7 +33,7 @@ def login():
                 # Log in the user
                 login_user(user)
                 UserService.update_last_login(user, datetime.now())
-                return redirect(url_for('home_bp.index')) 
+                return redirect(url_for('home_bp.index'))
             flash('Invalid user/password combination.')
             return render_template('login.html', **variables)
         flash ('This email is not registered, please signup.')
@@ -59,20 +59,16 @@ def signup():
             new_user = UserService.create(user_interface)
             # Log in as the new user
             login_user(new_user)
-            UserService.update_last_login(user, datetime.now())
+            UserService.update_last_login(new_user, datetime.now())
             return redirect(url_for('home_bp.index'))
         flash('A user already exists with that email address.')
     return render_template('signup.html', **variables)
-
-@auth_bp.route('/logout/')
-def logout():
-    return 'Logout'
 
 @login_manager.user_loader
 def load_user(user_id):
     """On every page load, check user is logged in."""
     if user_id is not None:
-        UserService.get_by_id(user_id)
+        return UserService.get_by_id(user_id)
     return None
 
 @login_manager.unauthorized_handler

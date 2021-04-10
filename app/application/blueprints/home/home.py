@@ -1,8 +1,9 @@
 import json
 
 from flask import Blueprint
-from flask import render_template, request, url_for, make_response, jsonify
+from flask import render_template, request, url_for, make_response, jsonify, redirect
 from flask import current_app as app
+from flask_login import login_required, logout_user
 
 from application.models import User, Trip
 from application.interface import UserInterface, TripInterface
@@ -12,6 +13,7 @@ from application.service import UserService, TripService
 home_bp = Blueprint('home_bp', __name__)
 
 @home_bp.route('/index/', methods=['GET'])
+@login_required
 def index():
     """Index page."""
     variables = {'sncf_token': app.config['SNCF_TOKEN']}
@@ -49,3 +51,10 @@ def add_trip():
     # Return to client
     headers = {"Content-Type": "application/json"}
     return make_response(jsonify(input_form), 200, headers)
+
+@home_bp.route('/logout/')
+@login_required
+def logout():
+    """User log out logic."""
+    logout_user()
+    return redirect(url_for('auth_bp.login'))

@@ -38,7 +38,7 @@ def create_app(testing=False):
     # Initialize plugin 
     db.init_app(app)
     login_manager.init_app(app)
-    
+
     with app.app_context():
         # Import blueprint modules
         from application.blueprints.home import home
@@ -51,4 +51,3 @@ def create_app(testing=False):
         db.create_all()
 
         return app
-        
