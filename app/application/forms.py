@@ -12,7 +12,10 @@ class SignupForm(FlaskForm):
     """User sign-up form"""
     name = StringField(
         'Name',
-        validators=[DataRequired()]
+        validators=[
+            Length(min=6),
+            DataRequired()
+        ]
     )
     email = StringField(
         'Email',

@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 import config
 
 import os
 
 db = SQLAlchemy()
+login_manager = LoginManager()
 
 def create_app(testing=False):
     """Application factory
@@ -35,6 +37,7 @@ def create_app(testing=False):
 
     # Initialize plugin 
     db.init_app(app)
+    login_manager.init_app(app)
     
     with app.app_context():
         # Import blueprint modules

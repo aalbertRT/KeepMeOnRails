@@ -1,16 +1,22 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-#from flask_login import login_required, logout_user, current_user, login_user
+from flask_login import current_user, login_user
 
 from .models import User
 from .interface import UserInterface
 from .service import UserService
 from .forms import LoginForm, SignupForm 
+from . import login_manager
 
 # Blueprint configuration
 auth_bp = Blueprint('auth_bp', __name__)
 
 @auth_bp.route('/login/', methods=['GET', 'POST'])
 def login():
+    """Log in form page."""
+    # Bypass if user logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('home_bp.index'))
+
     form = LoginForm()
     variables = {
         'title': 'Keep me on rails - Login',
@@ -18,15 +24,18 @@ def login():
     }
     if form.validate_on_submit():
         user = UserService.get_by_email(form.email.data)
+        # Check the user exists
         if user is not None:
+            # Check password is correct
             if user.check_password(form.password.data):
-                print("Logged in")
+                # Log in the user
+                login_user(user)
                 return redirect(url_for('home_bp.index')) 
             flash('Invalid user/password combination.')
-            return render_template('login_aa.html', **variables)
+            return render_template('login.html', **variables)
         flash ('This email is not registered, please signup.')
         return redirect(url_for('auth_bp.signup'))
-    return render_template('login_aa.html', **variables)
+    return render_template('login.html', **variables)
 
 @auth_bp.route('/signup/', methods=['GET', 'POST'])
 def signup():
@@ -42,12 +51,28 @@ def signup():
             username = form.name.data,
             password = form.password.data
         )
+        # Check email is not already used by an existing user
         if not UserService.get_by_email(user_interface['email']):
             new_user = UserService.create(user_interface)
-            return redirect(url_for('auth_bp.login'))
+            # Log in as the new user
+            login_user(new_user)
+            return redirect(url_for('home_bp.index'))
         flash('A user already exists with that email address.')
-    return render_template('signup_aa.html', **variables)
+    return render_template('signup.html', **variables)
 
 @auth_bp.route('/logout/')
 def logout():
     return 'Logout'
+
+@login_manager.user_loader
+def load_user(user_id):
+    """On every page load, check user is logged in."""
+    if user_id is not None:
+        UserService.get_by_id(user_id)
+    return None
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    """Redirect unauthorized user to Login page form."""
+    flash('You muste be logged in to be on this page.')
+    return redirect(url_for('auth_bp.login'))
