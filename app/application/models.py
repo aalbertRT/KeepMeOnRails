@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    username = db.Column(db.String(200), unique=True, nullable=False)
+    username = db.Column(db.String(200), unique=False, nullable=False)
     password = db.Column(db.String(200), unique=False, nullable=False)
     created_on = db.Column(db.DateTime, unique=False, nullable=True)
     last_login = db.Column(db.DateTime, unique=False, nullable=True)
@@ -46,19 +46,33 @@ class Trip(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
-    city_a_station_id = db.Column(db.String, unique=False, nullable=False)
-    city_b_station_id = db.Column(db.String, unique=False, nullable=False)
+    departure = db.Column(db.String, unique=False, nullable=False)
+    arrival = db.Column(db.String, unique=False, nullable=False)
     date = db.Column(db.Date, unique=False, nullable=False)
     created_on = db.Column(db.DateTime, unique=False, nullable=True)
 
-    def __init__(self, user_id: int, city_a_station_id: str, city_b_station_id: str, date: date):
+    def __init__(self, user_id: int, departure: str, arrival: str, date: date):
         self.user_id = user_id
-        self.city_a_station_id = city_a_station_id
-        self.city_b_station_id = city_b_station_id
+        self.departure = departure
+        self.arrival = arrival
         self.date = date
         self.created_on = datetime.now()
 
+    def verify_existence_in_db(self):
+        result = Trip.query.filter(
+            Trip.user_id==self.user_id
+        ).filter(
+            Trip.date==self.date
+        ).filter(
+            Trip.departure==self.departure
+        ).filter(
+            Trip.arrival==self.arrival
+        ).first()
+        if result is not None:
+            return True
+        return False
+
     def __str__(self):
-        return 'City A station: {}, City B station: {}, date: {}'.format(self.city_a_station_id,
-                                                                  self.city_b_station_id,
+        return 'Departure: {}, Arrival: {}, date: {}'.format(self.departure,
+                                                                  self.arrival,
                                                                   self.date)

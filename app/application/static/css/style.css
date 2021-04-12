@@ -46,7 +46,7 @@ input {
 	visibility: hidden;
 	width: 199px;
 	position: absolute;
-	margin-top: 50px;
+	margin-top: 0px;
 	background-color: white;
 	border: dotted grey 1px;
 }

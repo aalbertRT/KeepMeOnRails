@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+</body>
+    <div class="box">
+        <form method="POST" action="/index/" class="main-form">
+            {{ form.csrf_token }}
+            <fieldset class="departure">
+                {{ form.departure(placeholder='Departure', autocomplete='off') }}
+                <table id="searchDeparture" class="searchPlaceSuggestionTable">
+                </table>
+                {% if form.departure.errors %}
+                <ul class="errors">
+                    {% for errors in form.departure.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            {{ form.departure_id }}
+            <fieldset class="arrival">
+                {{ form.arrival(placeholder='Arrival', autocomplete='off') }}
+                <table id="searchArrival" class="searchPlaceSuggestionTable">
+                </table>
+                {% if form.arrival.errors %}
+                <ul class="errors">
+                    {% for errors in form.arrival.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            {{ form.arrival_id }}
+            <fieldset class="date">
+                {{ form.date() }}
+                {% if form.arrival.errors %}
+                <ul class="errors">
+                    {% for errors in form.arrival.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            <div class="submit-button">
+                {{ form.submit }}
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        window.appConfig = {
+            sncf_token: "{{ sncf_token }}"
+        }
+    </script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

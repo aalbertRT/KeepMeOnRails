@@ -137,14 +137,14 @@ def add_trips_to_db(db: SQLAlchemy, trips: List[Trip]):
 class TestTripService:
     TRIP1_INTERFACE: TripInterface = TripInterface(
         user_id=1,
-        city_a_station_id='0',
-        city_b_station_id='1',
+        departure='0',
+        arrival='1',
         date=date.fromisoformat('2021-03-30')
         )
     TRIP2_INTERFACE: TripInterface = TripInterface(
         user_id=2,
-        city_a_station_id='2',
-        city_b_station_id='3',
+        departure='2',
+        arrival='3',
         date=date.fromisoformat('2021-04-01')
         )
 

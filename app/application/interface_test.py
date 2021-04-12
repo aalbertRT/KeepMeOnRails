@@ -17,7 +17,7 @@ def test_UserInterface_works(user_interface: UserInterface):
 @fixture
 def trip_interface() -> TripInterface:
     test_date = date.fromisoformat('2021-03-30')
-    return TripInterface(user_id=1, city_a_station_id=0, city_b_station_id=1, date=test_date)
+    return TripInterface(user_id=1, departure=0, arrival=1, date=test_date)
 
 def test_TripInterface_create(trip_interface: TripInterface):
     assert trip_interface

@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.fields.html5 import DateField
+from wtforms.fields import HiddenField
 from wtforms.validators import (
     DataRequired,
     Email,
@@ -55,3 +57,33 @@ class LoginForm(FlaskForm):
         validators=[DataRequired()]
     )
     submit = SubmitField('Log In')
+
+class TripForm(FlaskForm):
+    """Trip form."""
+    departure = StringField(
+        'Departure',
+        validators=[
+            DataRequired(),
+        ]
+    )
+    departure_id = HiddenField(
+        validators=[
+            DataRequired()
+        ]
+    )
+    arrival = StringField(
+        'Arrival',
+        validators=[
+            DataRequired(),
+        ]
+    )
+    arrival_id = HiddenField(
+        validators=[
+            DataRequired()
+        ]
+    )
+    date = DateField(
+        'Trip date',
+        format='%Y-%m-%d'
+    )
+    submit = SubmitField('Send trip request')

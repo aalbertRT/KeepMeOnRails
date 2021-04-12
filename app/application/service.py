@@ -90,8 +90,8 @@ class TripService():
     def create(new_attrs: TripInterface) -> Trip:
         new_trip = Trip(
             user_id=new_attrs['user_id'],
-            city_a_station_id=new_attrs['city_a_station_id'],
-            city_b_station_id=new_attrs['city_b_station_id'],
+            departure=new_attrs['departure'],
+            arrival=new_attrs['arrival'],
             date=new_attrs['date']
         )
         db.session.add(new_trip)

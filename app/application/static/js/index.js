@@ -1,35 +1,3 @@
-var form = document.getElementById("mainForm");
-
-var cityAId = '';
-var cityBId = '';
-
-function onSubmit(event) {
-	event.preventDefault();
-	let formInput = {
-		firstName: document.getElementById("firstName").value,
-		email: document.getElementById("email").value,
-		phoneNumber: document.getElementById("phoneNumber").value,
-		cityA: document.getElementById("cityA").value,
-		cityAId: cityAId,
-		cityB: document.getElementById("cityB").value,
-		cityBId: cityBId,
-		date: document.getElementById("date").value
-	}
-	console.log(formInput);
-	//form.reset();
-
-	var request = new XMLHttpRequest();
-	request.onreadystatechange = function() {
-		if (request.readyState == XMLHttpRequest.DONE && request.status == 200) {
-			var response = request.responseText
-			console.log(response);
-		}
-	}
-	request.open("POST", "/ajax/");
-	request.setRequestHeader("Content-type", "application/json");
-	request.send(JSON.stringify(formInput));
-}
-
 
 function checkCityResponse(cityResponse, cityInput) {
 	if (cityResponse.places.length != 0) {
@@ -62,11 +30,11 @@ function fillCityTable(cityInput, citiesArray) {
 		/* Fill the input cell when a city is clicked in the table */
 		newCell.addEventListener('click', function() {
 			cityInput.value = this.innerHTML;
-			if (cityInput.name == 'cityA') {
-				cityAId = city.id;
+			if (cityInput.name == 'departure') {
+				document.getElementById('departure_id').value = city.id;
 			}
-			if (cityInput.name == 'cityB') {
-				cityBId = city.id;
+			if (cityInput.name == 'arrival') {
+				document.getElementById('arrival_id').value = city.id;
 			}
 			flushCityTable(cityInput);
 		});
@@ -114,15 +82,13 @@ function loadRelevantPlaces(cityInput) {
 }
 
 /* Define components that will be watched during app run */
-let cityA = document.getElementById("cityA");
-let cityB = document.getElementById("cityB");
+let departure = document.getElementById("departure");
+let arrival = document.getElementById("arrival");
 
 /* Listen to typing events */
-cityA.addEventListener("input", function() {
+departure.addEventListener("input", function() {
 	loadRelevantPlaces(this);
 });
-cityB.addEventListener("input", function() {
+arrival.addEventListener("input", function() {
 	loadRelevantPlaces(this);
 });
-
-form.addEventListener('submit', onSubmit);
