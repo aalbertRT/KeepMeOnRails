@@ -10,7 +10,7 @@ from wtforms.validators import (
     Optional
 )
 
-class SignupForm(FlaskForm): 
+class SignupForm(FlaskForm):
     """User sign-up form"""
     name = StringField(
         'Name',

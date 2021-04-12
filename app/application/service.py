@@ -29,7 +29,7 @@ class UserService():
             setattr(user, key, user_changes_updates[key])
         db.session.commit()
         return user
-    
+
     @staticmethod
     def update_last_login(user: User, last_login_date: datetime) -> User:
         setattr(user, 'last_login', last_login_date)

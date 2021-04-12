@@ -11,9 +11,9 @@ login_manager = LoginManager()
 def create_app(testing=False):
     """Application factory
 
-    Args: 
+    Args:
         testing (bool): will load TestingConfig if True, defaults to False
-    Returns: 
+    Returns:
         A Flask application object
     """
     app = Flask(
@@ -35,7 +35,7 @@ def create_app(testing=False):
     else:
         app.config.from_object(config.DevConfig)
 
-    # Initialize plugin 
+    # Initialize plugin
     db.init_app(app)
     login_manager.init_app(app)
 

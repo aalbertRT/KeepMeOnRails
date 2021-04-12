@@ -6,7 +6,7 @@ from flask_login import current_user, login_user
 from application.models import User
 from application.interface import UserInterface
 from application.service import UserService
-from application.forms import LoginForm, SignupForm 
+from application.forms import LoginForm, SignupForm
 from application import login_manager
 
 # Blueprint configuration

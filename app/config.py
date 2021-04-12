@@ -37,7 +37,7 @@ class DevConfig(Config):
 
 class TestConfig(Config):
     """PyTest configuration."""
-    
+
     FLASK_ENV = 'testing'
     TESTING = True
     DEBUG = True

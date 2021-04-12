@@ -16,9 +16,9 @@ class User(UserMixin, db.Model):
     created_on = db.Column(db.DateTime, unique=False, nullable=True)
     last_login = db.Column(db.DateTime, unique=False, nullable=True)
     # Relationship: a user can have multiple planned trips
-    # It is also mandatory to add property 'user' to the Trip object 
+    # It is also mandatory to add property 'user' to the Trip object
     trips = db.relationship('Trip', backref='user', lazy=True)
-    
+
     def __init__(self, username: str, email: str, password: str):
         self.email = email
         self.username = username
