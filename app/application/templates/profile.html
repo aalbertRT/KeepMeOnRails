@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>
+  Hello {{ user.username }}, you have requested {{ user.trips | length }} trips!
+</p>
+{% endblock %}

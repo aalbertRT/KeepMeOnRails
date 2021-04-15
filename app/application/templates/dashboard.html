@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content%}
+<ul>
+  {% for trip in trips %}
+    <li>Departure: {{ trip.departure }}; Arrival: {{ trip.arrival }}; Date: {{ trip.date }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Keep me on rails</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+    <div class="header">
+        <nav class="navbar">
+            <a href="{{ url_for('home_bp.index') }}">
+                Home
+            </a>
+            <a href="{{ url_for('home_bp.dashboard') }}">
+                Dashboard
+            </a>
+            <a href="{{ url_for('home_bp.profile') }}">
+                Profile
+            </a>
+            <a href="{{ url_for('home_bp.logout') }}">
+                Logout
+            </a>
+        </nav>
+    </div>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

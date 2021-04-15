@@ -11,3 +11,8 @@ repos:
   rev: pylint-2.7.4
   hooks:
   - id: pylint
+
+- repo: https://github.com/psf/black
+  rev: stable
+  hooks:
+  - id: black
