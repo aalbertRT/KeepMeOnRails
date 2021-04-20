@@ -56,7 +56,13 @@ export FLASK_APP=app/wsgi.py
 export FLASK_ENV=development
 ```
 
-The app configuration is different according to **FLASK_ENV** definition: *testing*, *development* and *production* options are handled.
+The app configuration is different depending on **FLASK_ENV** definition: *testing*, *development* and *production* options are handled.
+
+To run the app:
+
+```bash
+flask run
+```
 
 ### With a docker container
 
