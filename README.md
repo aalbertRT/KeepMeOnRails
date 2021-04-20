@@ -12,9 +12,9 @@
 - [x] Flask-SQLAlchemy
 - [x] Flask-WTForms
 - [x] Flask-Login
-- [] Flask-Admin
-- [] Flask-RESTful or Flask-RESTplus?
-- [] Flask-Cache (later)
+- [ ] Flask-Admin
+- [ ] Flask-RESTful or Flask-RESTplus?
+- [ ] Flask-Cache (later)
 
 ## Run the app
 
