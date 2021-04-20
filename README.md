@@ -7,6 +7,15 @@
 - [x] Unitary test classes with pytest
 - [ ] ???
 
+## Flask libraries
+
+- [x] Flask-SQLAlchemy
+- [x] Flask-WTForms
+- [x] Flask-Login
+- [] Flask-Admin
+- [] Flask-RESTful or Flask-RESTplus?
+- [] Flask-Cache (later)
+
 ## Run the app
 
 ### Requirements
