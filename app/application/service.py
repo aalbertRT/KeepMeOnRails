@@ -3,7 +3,8 @@ from typing import List
 from .models import db, User, Trip
 from .interface import UserInterface, TripInterface
 
-class UserService():
+
+class UserService:
     @staticmethod
     def get_all() -> List[User]:
         return User.query.all()
@@ -23,7 +24,7 @@ class UserService():
     @staticmethod
     def update(user: User, user_changes_updates: UserInterface) -> User:
         for key in user_changes_updates.keys():
-            if key == 'password':
+            if key == "password":
                 user.set_password(user_changes_updates[key])
                 continue
             setattr(user, key, user_changes_updates[key])
@@ -32,7 +33,7 @@ class UserService():
 
     @staticmethod
     def update_last_login(user: User, last_login_date: datetime) -> User:
-        setattr(user, 'last_login', last_login_date)
+        setattr(user, "last_login", last_login_date)
         db.session.commit()
         return user
 
@@ -48,16 +49,16 @@ class UserService():
     @staticmethod
     def create(new_attrs: UserInterface) -> User:
         new_user = User(
-            username=new_attrs['username'],
-            email=new_attrs['email'],
-            password=new_attrs['password']
+            username=new_attrs["username"],
+            email=new_attrs["email"],
+            password=new_attrs["password"],
         )
         db.session.add(new_user)
         db.session.commit()
         return new_user
 
 
-class TripService():
+class TripService:
     @staticmethod
     def get_all() -> List[Trip]:
         return Trip.query.all()
@@ -89,10 +90,12 @@ class TripService():
     @staticmethod
     def create(new_attrs: TripInterface) -> Trip:
         new_trip = Trip(
-            user_id=new_attrs['user_id'],
-            departure=new_attrs['departure'],
-            arrival=new_attrs['arrival'],
-            date=new_attrs['date']
+            user_id=new_attrs["user_id"],
+            departure=new_attrs["departure"],
+            departure_id=new_attrs["departure_id"],
+            arrival=new_attrs["arrival"],
+            arrival_id=new_attrs["arrival_id"],
+            date=new_attrs["date"],
         )
         db.session.add(new_trip)
         db.session.commit()

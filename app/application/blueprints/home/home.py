@@ -34,7 +34,9 @@ def index():
         trip_interface = TripInterface(
             user_id=current_user.id,
             departure=form.departure.data,
+            departure_id=form.departure_id.data,
             arrival=form.arrival.data,
+            arrival_id=form.arrival_id.data,
             date=form.date.data,
         )
         # Verify existence in db

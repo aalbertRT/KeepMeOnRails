@@ -15,18 +15,14 @@ def add_users_to_db(db: SQLAlchemy, users: List[User]):
         db.session.add(user)
     db.session.commit()
 
+
 class TestUserService:
     USER1_INTERFACE: UserInterface = UserInterface(
-        username='user1',
-        email='user1@users.com',
-        password='password1'
-        )
+        username="user1", email="user1@users.com", password="password1"
+    )
     USER2_INTERFACE: UserInterface = UserInterface(
-        username='user2',
-        email='user2@users.com',
-        password='password2'
-        )
-
+        username="user2", email="user2@users.com", password="password2"
+    )
 
     def test_create(self, db: SQLAlchemy):
         # Create user
@@ -34,13 +30,14 @@ class TestUserService:
         # Get users in db
         results: List[User] = User.query.all()
         # Verify created user has right properties and is in the db
-        assert (len(results) == 1)
+        assert len(results) == 1
         for key in self.USER1_INTERFACE.keys():
-            if key=='password':
-                assert check_password_hash(getattr(results[0], key), self.USER1_INTERFACE[key])
+            if key == "password":
+                assert check_password_hash(
+                    getattr(results[0], key), self.USER1_INTERFACE[key]
+                )
                 continue
             assert getattr(results[0], key) == self.USER1_INTERFACE[key]
-
 
     def test_get_all(self, db: SQLAlchemy):
         # Add two users to db
@@ -52,7 +49,6 @@ class TestUserService:
         assert len(results) == 2
         assert (user1 in results) and (user2 in results)
 
-
     def test_get_by_id(self, db: SQLAlchemy):
         # Add two users to db
         user1: User = User(**self.USER1_INTERFACE)
@@ -61,11 +57,12 @@ class TestUserService:
         # Verify you get user2 with id 2
         result: User = UserService.get_by_id(2)
         for key in self.USER2_INTERFACE.keys():
-            if key=='password':
-                assert check_password_hash(getattr(result, key), self.USER2_INTERFACE[key])
+            if key == "password":
+                assert check_password_hash(
+                    getattr(result, key), self.USER2_INTERFACE[key]
+                )
                 continue
             assert getattr(result, key) == self.USER2_INTERFACE[key]
-
 
     def test_get_by_email(self, db: SQLAlchemy):
         # Add two users to db
@@ -73,10 +70,9 @@ class TestUserService:
         user2: User = User(**self.USER2_INTERFACE)
         add_users_to_db(db, [user1, user2])
         # Get user1 by email
-        result: User = UserService.get_by_email('user1@users.com')
+        result: User = UserService.get_by_email("user1@users.com")
         # Verify user1 is obtained
-        assert result.email == 'user1@users.com'
-
+        assert result.email == "user1@users.com"
 
     def test_get_by_username(self, db: SQLAlchemy):
         # Add two users to db
@@ -84,10 +80,9 @@ class TestUserService:
         user2: User = User(**self.USER2_INTERFACE)
         add_users_to_db(db, [user1, user2])
         # Get user1 by username
-        result: User = UserService.get_by_username('user1')
+        result: User = UserService.get_by_username("user1")
         # Verify user1 is obtained
-        assert result.username == 'user1'
-
+        assert result.username == "user1"
 
     def test_update(self, db: SQLAlchemy):
         # Add user to db
@@ -98,23 +93,23 @@ class TestUserService:
         # Verify user has been modified
         result: User = User.query.all()[0]
         for key in self.USER2_INTERFACE.keys():
-            if key == 'password':
-                assert check_password_hash(getattr(result, key), self.USER2_INTERFACE[key])
+            if key == "password":
+                assert check_password_hash(
+                    getattr(result, key), self.USER2_INTERFACE[key]
+                )
                 continue
             assert getattr(result, key) == self.USER2_INTERFACE[key]
-
 
     def test_update_last_login(self, db: SQLAlchemy):
         # Add user to db
         user: User = User(**self.USER1_INTERFACE)
         add_users_to_db(db, [user])
         # Modify the user
-        new_date: datetime = datetime.strptime('20210410', '%Y%m%d')
+        new_date: datetime = datetime.strptime("20210410", "%Y%m%d")
         UserService.update_last_login(user, new_date)
         # Verify user login date has been modified
         result: User = User.query.all()[0]
         assert result.last_login == new_date
-
 
     def test_delete_by_id(self, db: SQLAlchemy):
         # Add two users to db
@@ -126,7 +121,7 @@ class TestUserService:
         UserService.delete_by_id(deleted_user_id)
         # Get all the users and verify the deleted is absent
         results: List[User] = User.query.all()
-        assert (len(results) == 1) and (results[0].username == 'user1')
+        assert (len(results) == 1) and (results[0].username == "user1")
 
 
 def add_trips_to_db(db: SQLAlchemy, trips: List[Trip]):
@@ -134,19 +129,24 @@ def add_trips_to_db(db: SQLAlchemy, trips: List[Trip]):
         db.session.add(trip)
     db.session.commit()
 
+
 class TestTripService:
     TRIP1_INTERFACE: TripInterface = TripInterface(
         user_id=1,
-        departure='0',
-        arrival='1',
-        date=date.fromisoformat('2021-03-30')
-        )
+        departure="Angers",
+        departure_id="admin:fr:49007",
+        arrival="Toulouse",
+        arrival_id="admin:fr:31555",
+        date=date.fromisoformat("2021-03-30"),
+    )
     TRIP2_INTERFACE: TripInterface = TripInterface(
         user_id=2,
-        departure='2',
-        arrival='3',
-        date=date.fromisoformat('2021-04-01')
-        )
+        departure="Bordeaux",
+        departure_id="admin:fr:33063",
+        arrival="Lyon",
+        arrival_id="admin:fr:69123",
+        date=date.fromisoformat("2021-04-01"),
+    )
 
     def test_create(self, db: SQLAlchemy):
         # Create trip
@@ -154,10 +154,9 @@ class TestTripService:
         # Get trips in db
         results: List[Trip] = Trip.query.all()
         # Verify created trip has right properties and is in the db
-        assert (len(results) == 1)
+        assert len(results) == 1
         for key in self.TRIP1_INTERFACE.keys():
             assert getattr(results[0], key) == self.TRIP1_INTERFACE[key]
-
 
     def test_get_all(self, db: SQLAlchemy):
         # Add two trips to db
@@ -168,7 +167,6 @@ class TestTripService:
         results: List[Trip] = TripService.get_all()
         assert len(results) == 2
         assert (trip1 in results) and (trip2 in results)
-
 
     def test_get_by_id(self, db: SQLAlchemy):
         # Add two trips to db
@@ -191,7 +189,6 @@ class TestTripService:
         assert len(results) == 1
         assert results[0].user_id == requested_user_id
 
-
     def test_update(self, db: SQLAlchemy):
         # Add trip to db
         trip: Trip = Trip(**self.TRIP1_INTERFACE)
@@ -202,7 +199,6 @@ class TestTripService:
         result: Trip = Trip.query.all()[0]
         for key in self.TRIP2_INTERFACE.keys():
             assert getattr(result, key) == self.TRIP2_INTERFACE[key]
-
 
     def test_delete_by_id(self, db: SQLAlchemy):
         # Add two trips to db
