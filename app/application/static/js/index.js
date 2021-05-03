@@ -6,7 +6,12 @@ function checkCityResponse(cityResponse, cityInput) {
 			/* Check the initial name is inside the place name */
 			var regex = new RegExp(cityInput, "i");
 			if (regex.test(place[place.embedded_type].name)) {
-				citiesArray.push({"cityName": place[place.embedded_type].name, "id": place.id});
+				if (place.embedded_type == "administrative_region") {
+					citiesArray.push({"cityName": place[place.embedded_type].name, "id": place.id});
+				}
+				if (place.embedded_type == "stop_area") {
+					citiesArray.push({"cityNameplace": place[place.embedded_type].name, "id": place[place.embedded_type].administrative_regions[0].id});
+				}
 			}
 		}
 		if (citiesArray.length == 0) {
